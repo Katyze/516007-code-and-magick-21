@@ -41,7 +41,6 @@ const WIZARD_FIREBALL = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 const wizards = [];
 
 const userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 
 const setupSimilar = userDialog.querySelector('.setup-similar');
 setupSimilar.classList.remove('hidden');
