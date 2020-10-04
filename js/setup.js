@@ -35,10 +35,12 @@ const WIZARD_COLORS = [
 
 const WIZARD_EYES = ['black', 'red', 'blue', 'yellow', 'green'];
 
+const WIZARD_FIREBALL = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
+
 const wizards = [];
 
 const userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 
 const setupSimilar = userDialog.querySelector('.setup-similar');
 setupSimilar.classList.remove('hidden');
@@ -57,8 +59,7 @@ function getRandomNumber(max) {
 function renderWizardsArr(wizardsQuantity) {
   for (let i = 0; i < wizardsQuantity; i++) {
     wizards[i] = {
-      name:
-        WIZARD_NAMES[getRandomNumber(WIZARD_NAMES.length)] +
+      name: WIZARD_NAMES[getRandomNumber(WIZARD_NAMES.length)] +
         ' ' +
         WIZARD_SURNAMES[getRandomNumber(WIZARD_SURNAMES.length)],
       coatColor: WIZARD_COLORS[getRandomNumber(WIZARD_COLORS.length)],
@@ -83,3 +84,87 @@ wizards.forEach((item) => {
 });
 
 similarListElement.appendChild(fragment);
+
+
+// работа с модальным окном
+const MIN_NAME_LENGTH = 2;
+const MAX_NAME_LENGTH = 25;
+const setupOpen = document.querySelector('.setup-open');
+const setup = document.querySelector('.setup');
+const setupClose = setup.querySelector('.setup-close');
+const userNameInput = document.querySelector('.setup-user-name');
+const setupWizard = document.querySelector('.setup-wizard');
+const wizardCoat = setupWizard.querySelector('.wizard-coat');
+const wizardEyes = setupWizard.querySelector('.wizard-eyes');
+const wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+
+const onPopupEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+
+const openPopup = function () {
+  setup.classList.remove('hidden');
+
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+const closePopup = function () {
+  setup.classList.add('hidden');
+
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    openPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    closePopup();
+  }
+});
+
+userNameInput.addEventListener('input', function () {
+
+});
+
+userNameInput.addEventListener('input', function () {
+  const valueLength = userNameInput.value.length;
+
+  if (valueLength < MIN_NAME_LENGTH) {
+    userNameInput.setCustomValidity('Напишите хотя бы еще ' + (MIN_NAME_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_NAME_LENGTH) {
+    userNameInput.setCustomValidity('Слишком много! удалите лишние ' + (valueLength - MAX_NAME_LENGTH) + ' симв.');
+  } else {
+    userNameInput.setCustomValidity('');
+  }
+
+  userNameInput.reportValidity();
+});
+
+// изменение цветов
+wizardCoat.addEventListener('click', function () {
+  wizardCoat.style.fill = WIZARD_COLORS[getRandomNumber(WIZARD_COLORS.length)];
+});
+
+wizardEyes.addEventListener('click', function () {
+  wizardEyes.style.fill = WIZARD_EYES[getRandomNumber(WIZARD_EYES.length)];
+});
+
+wizardFireball.addEventListener('click', function () {
+  wizardFireball.style.backgroundColor = WIZARD_FIREBALL[getRandomNumber(WIZARD_FIREBALL.length)];
+});
